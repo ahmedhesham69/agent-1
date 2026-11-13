@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGENT 1 — Exhibition Booth QR Stand | Blueprinters</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Orbitron:wght@700;900&family=Inter:wght@400;600;700;800&display=swap');
+
+    :root {
+      --bg: #070b14;
+      --card-bg: #0e1726;
+      --cyan: #00e5ff;
+      --cyan-glow: rgba(0, 229, 255, 0.4);
+      --border: rgba(0, 229, 255, 0.35);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .toolbar {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #00e5ff, #0284c7);
+      color: #04121a;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.35);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 229, 255, 0.1);
+      transform: none;
+    }
+
+    /* Print Card Layout */
+    .stand-card {
+      width: 100%;
+      max-width: 580px;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      padding: 40px 36px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 229, 255, 0.15);
+      overflow: hidden;
+    }
+
+    .stand-card::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 240px;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* Badge */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* Headers */
+    h1.project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    h1.project-title span {
+      color: var(--cyan);
+    }
+
+    .subtitle-en {
+      font-size: 15px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .subtitle-ar {
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 24px;
+      direction: rtl;
+    }
+
+    /* QR Code Display Container */
+    .qr-frame {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 20px;
+      display: inline-block;
+      margin: 10px auto 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 229, 255, 0.3);
+      border: 4px solid var(--cyan);
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .qr-frame img, .qr-frame svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    /* Instructions */
+    .scan-prompt {
+      margin-top: 14px;
+      margin-bottom: 22px;
+    }
+
+    .scan-prompt .en {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .scan-prompt .ar {
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cyan);
+      direction: rtl;
+    }
+
+    /* URL link block */
+    .url-block {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px dashed rgba(0, 229, 255, 0.4);
+      padding: 10px 18px;
+      border-radius: 12px;
+      display: inline-block;
+      font-family: Consolas, 'SF Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #e2e8f0;
+      letter-spacing: 0.03em;
+      margin-bottom: 24px;
+    }
+
+    .url-block span {
+      color: var(--cyan);
+    }
+
+    /* Team & Affiliation Footer */
+    .card-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13.5px;
+    }
+
+    .team-highlight {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+
+    .team-highlight .blue {
+      color: var(--cyan);
+    }
+
+    .inst-line {
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .inst-line-ar {
+      font-family: 'Cairo', sans-serif;
+      color: #cbd5e1;
+      font-size: 13.5px;
+      direction: rtl;
+    }
+
+    /* PRINT SPECIFIC STYLES (Clean White Paper Ink-Saving & Maximum Contrast) */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0;
+        margin: 0;
+        min-height: auto;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .stand-card {
+        box-shadow: none !important;
+        border: 3px solid #000000 !important;
+        border-radius: 16px;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 auto;
+        padding: 28px 24px;
+        background: #ffffff !important;
+      }
+
+      .stand-card::before {
+        display: none !important;
+      }
+
+      .pill-badge {
+        background: #f1f5f9 !important;
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+        font-weight: 800;
+      }
+
+      .dot {
+        background: #000000 !important;
+        box-shadow: none !important;
+      }
+
+      h1.project-title {
+        color: #000000 !important;
+      }
+
+      h1.project-title span {
+        color: #000000 !important;
+        text-decoration: underline;
+      }
+
+      .subtitle-en, .subtitle-ar {
+        color: #1e293b !important;
+      }
+
+      .qr-frame {
+        border: 4px solid #000000 !important;
+        box-shadow: none !important;
+        max-width: 280px;
+        padding: 12px;
+      }
+
+      .scan-prompt .en {
+        color: #000000 !important;
+      }
+
+      .scan-prompt .ar {
+        color: #000000 !important;
+      }
+
+      .url-block {
+        background: #f8fafc !important;
+        border: 1.5px solid #000000 !important;
+        color: #000000 !important;
+      }
+
+      .url-block span {
+        color: #000000 !important;
+      }
+
+      .card-footer {
+        border-top: 1.5px solid #000000 !important;
+      }
+
+      .team-highlight, .team-highlight .blue {
+        color: #000000 !important;
+      }
+
+      .inst-line, .inst-line-ar {
+        color: #1e293b !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls on Screen -->
+  <div class="toolbar">
+    <button class="btn" onclick="window.print()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9V2h12v7"></path>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print Booth Stand (طباعة الستاند)
+    </button>
+    <a href="./agent1-qr-code.png" download="agent1-qr-code.png" class="btn btn-outline">
+      Download High-Res PNG
+    </a>
+    <a href="./agent1-qr-code.svg" download="agent1-qr-code.svg" class="btn btn-outline">
+      Download Vector SVG
+    </a>
+  </div>
+
+  <!-- Physical Stand Poster Card -->
+  <div class="stand-card">
+    <div class="pill-badge">
+      <span class="dot"></span>
+      Exhibition Live Access · المعرض الدولي
+    </div>
+
+    <h1 class="project-title">AGENT <span>1</span></h1>
+    <div class="subtitle-en">Autonomous UGV with Robotic Arm & Edge AI</div>
+    <div class="subtitle-ar">مركبة أرضية ذاتية القيادة مجهزة بذراع آلية وذكاء اصطناعي</div>
+
+    <!-- QR Code Block -->
+    <div class="qr-frame">
+      <img src="./agent1-qr-code.svg" alt="AGENT 1 Website QR Code">
+    </div>
+
+    <!-- Scan Prompt in AR & EN -->
+    <div class="scan-prompt">
+      <div class="en">SCAN TO EXPLORE LIVE PLATFORM & DEMOS</div>
+      <div class="ar">امسح الكود بكاميرا هاتفك لاستعراض الموقع والمواصفات الكاملة</div>
+    </div>
+
+    <!-- Direct URL Text -->
+    <div class="url-block">
+      https://<span>ahmedhesham69.github.io/agent-1/</span>
+    </div>
+
+    <!-- Footer: Team & Faculty -->
+    <div class="card-footer">
+      <div class="team-highlight">
+        Developed by <span class="blue">Blueprinters</span> Team
+      </div>
+      <div class="inst-line">
+        Faculty of Artificial Intelligence · Robotics Department
+      </div>
+      <div class="inst-line-ar">
+        جامعة حورس - مصر (دمياط الجديدة) · كلية الذكاء الاصطناعي
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
